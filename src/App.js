@@ -5,7 +5,7 @@ import { Rotas } from './Rotas';
 export default function App() {
   return (
     <React.Fragment>
-      <StatusBar barStyle="dark-content" backgroundColor={'transparent'} translucent />
+      <StatusBar backgroundColor={'transparent'} translucent />
       <Rotas />
     </React.Fragment>
   )
