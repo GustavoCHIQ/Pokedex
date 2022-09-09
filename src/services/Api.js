@@ -1,7 +1,7 @@
 import axios from 'react-native-axios'
 
 const Api = axios.create({
-    baseURL: 'https://swapi.dev/api/people',
+    baseURL: 'https://pokemon-db-json.herokuapp.com',
     timeout: 10000
 })
 

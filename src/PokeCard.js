@@ -2,12 +2,11 @@ import React from 'react';
 import {
   StyleSheet,
   View,
+  Image,
   Text,
-  TouchableOpacity,
-  Button
+  TouchableOpacity
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-gesture-handler';
 
 export const PokeCard = ({ pokemon }) => {
   const navigation = useNavigation();
@@ -17,50 +16,90 @@ export const PokeCard = ({ pokemon }) => {
   }
 
   return (
-    <TouchableOpacity activeOpacity={0.7} style={[card.container]}>
+    <TouchableOpacity activeOpacity={0.7} onPress={() => handleDetails(pokemon)}
+      style={[card.container, { backgroundColor: getColorFromType(pokemon.types[0]), }]}>
+
       <Text style={card.id} numberOfLines={1}>
-        {pokemon.name.toString().padStart(4, '#000')}
+        {pokemon.id.toString().padStart(4, '#000')}
       </Text>
-      <View>
-        <Text style={{ color: '#ffffff', fontWeight: 'bold', paddingBottom: 5 }}>NASCIMENTO</Text>
-        <Text>Data: {pokemon.birth_year}</Text>
-        <Text>Planeta: {pokemon.homeworld}</Text>
+      <Text style={card.name} numberOfLines={1}>
+        {capitalize(pokemon.name)}
+      </Text>
+      <Image style={card.pokeball} source={require('../assets/pokeball.png')} />
+      <Image source={{ uri: pokemon.image }} style={card.pokemon} />
+      <View style={styles.container}>
+        {pokemon.types.map((type, index) => {
+          return (
+            <Text key={index} style={styles.type}>
+              {capitalize(type)}
+            </Text>
+          );
+        })}
       </View>
-      <View>
-        <Text style={{ color: '#ffffff', fontWeight: 'bold', paddingBottom: 5 }}>DESCRIÇÃO FISICA </Text>
-        <Text>ESPÉCIE: </Text>
-        <Text>Altura: {pokemon.height} METRO</Text>
-      </View>
-      <View>
-        <Text style={{ color: '#ffffff', fontWeight: 'bold', paddingBottom: 5 }}>VEICULOS USADOS</Text>
-        <Text>{pokemon.vehicles}</Text>
-      </View>
-      <View>
-        <View>
-          <Button title='VER DETALHES' color={'#FFE81F'} />
-        </View>
-      </View>
-    </TouchableOpacity >
+    </TouchableOpacity>
   );
 };
 
+const capitalize = text => {
+  text = text.replace('-', ' ');
+  return text.charAt(0).toUpperCase() + text.slice(1, text.length);
+};
+
+const getColorFromType = type => {
+  switch (type) {
+    default:
+      return '#000';
+    case 'bug':
+      return '#8BD674';
+    case 'dark':
+      return '#6F6E78';
+    case 'dragon':
+      return '#7383B9';
+    case 'electric':
+      return '#ffd86f';
+    case 'fairy':
+      return '#EBA8C3';
+    case 'fighting':
+      return '#EB4971';
+    case 'fire':
+      return '#fb6c6c';
+    case 'flying':
+      return '#83A2E3';
+    case 'ghost':
+      return '#8571BE';
+    case 'grass':
+      return '#48d0b0';
+    case 'ground':
+      return '#F78551';
+    case 'ice':
+      return '#91D8DF';
+    case 'normal':
+      return '#B5B9C4';
+    case 'poison':
+      return '#9F6E97';
+    case 'psychic':
+      return '#FF6568';
+    case 'rock':
+      return '#D4C294';
+    case 'steel':
+      return '#4C91B2';
+    case 'water':
+      return '#76bdfe';
+  }
+};
 
 const card = StyleSheet.create({
   container: {
-    height: 290,
+    height: 130,
     padding: 20,
     overflow: 'hidden',
     marginBottom: 15,
     borderRadius: 15,
-    backgroundColor: '#606060'
-  },
-  button: {
-    backgroundColor: '#FFE81F'
   },
   id: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: '#FFE81F',
+    color: 'rgba(23, 23, 27, 0.3)',
   },
   name: {
     marginBottom: 5,
